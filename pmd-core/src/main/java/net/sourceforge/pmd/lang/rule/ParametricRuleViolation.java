@@ -58,12 +58,19 @@ public class ParametricRuleViolation<T extends Node> implements RuleViolation {
 
     private void setSuppression(Rule rule, T node) {
 
-        String regex = rule.getProperty(Rule.VIOLATION_SUPPRESS_REGEX_DESCRIPTOR); // Regex
+        Pattern regex = rule.getProperty(Rule.VIOLATION_SUPPRESS_REGEX_DESCRIPTOR); // Regex
         if (regex != null && description != null) {
-            if (Pattern.matches(regex, description)) {
+            if (regex.matcher(description).matches()) {
                 suppressed = true;
             }
         }
+        
+//        String regex = rule.getProperty(Rule.VIOLATION_SUPPRESS_REGEX_DESCRIPTOR); // Regex
+//        if (regex != null && description != null) {
+//            if (Pattern.matches(regex,description)) {
+//                suppressed = true;
+//            }
+//        }
 
         if (!suppressed) { // XPath
             String xpath = rule.getProperty(Rule.VIOLATION_SUPPRESS_XPATH_DESCRIPTOR);
